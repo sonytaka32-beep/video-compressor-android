@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.example.videocompressor.app-release-40:/layout_item_queue.xml.flat",
+        "source": "com.example.videocompressor.app-main-41:/layout/item_queue.xml"
+    },
+    {
+        "merged": "com.example.videocompressor.app-release-40:/menu_menu_main.xml.flat",
+        "source": "com.example.videocompressor.app-main-41:/menu/menu_main.xml"
+    },
+    {
+        "merged": "com.example.videocompressor.app-release-40:/layout_activity_main.xml.flat",
+        "source": "com.example.videocompressor.app-main-41:/layout/activity_main.xml"
+    }
+]

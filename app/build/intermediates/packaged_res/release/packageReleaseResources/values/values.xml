@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_open">Open File</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_share">Share</string>
+    <string name="add_videos">Add Videos</string>
+    <string name="app_name">FFmpeg Video Compressor</string>
+    <string name="cancel_entire_queue">Cancel Entire Queue</string>
+    <string name="compression_preset">Compression Preset</string>
+    <string name="empty_queue_hint">Add one or more videos, pick an output folder, and tap Start.</string>
+    <string name="error_no_video_player">No app found to open this video.</string>
+    <string name="menu_clear_all">Clear Entire Queue</string>
+    <string name="menu_clear_finished">Clear Finished Items</string>
+    <string name="notification_channel_name">Compression Updates</string>
+    <string name="notification_completion_body">Compressed %1$d video(s), saving %2$s total.</string>
+    <string name="notification_completion_title">Batch Compression Complete</string>
+    <string name="output_folder_selected_format">Out: %1$s</string>
+    <string name="select_output_folder">Output Folder</string>
+    <string name="size_completed_format">%1$s → %2$s (%3$d%% saved)</string>
+    <string name="size_queued_format">Original: %1$s</string>
+    <string name="start_compression">Start Compression</string>
+    <string name="status_cancelled">Cancelled</string>
+    <string name="status_completed_format">Completed in %1$s</string>
+    <string name="status_compressing_format">Compressing: %1$d%% • Elapsed %2$s • ETA %3$s</string>
+    <string name="status_failed_format">Failed: %1$s</string>
+    <string name="status_queued">Waiting in queue</string>
+    <style name="Theme.VideoCompressor" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+    </style>
+</resources>
