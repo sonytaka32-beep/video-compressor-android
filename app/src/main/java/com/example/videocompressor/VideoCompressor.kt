@@ -5,7 +5,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import com.arthenica.ffmpegkit.FFmpegKit
-import com.arthenica.ffmpegkit.FFmpegKitConfig
+import com.arthenica.ffmpegkit.FFmpegSession
 import com.arthenica.ffmpegkit.ReturnCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -48,39 +48,17 @@ class VideoCompressor(private val context: Context) {
             copyUriToFile(inputUri, tempInput)
             val durationMs = extractDurationMs(tempInput).coerceAtLeast(1L)
 
-            FFmpegKitConfig.resetStatistics()
-            FFmpegKitConfig.enableStatisticsCallback { stats ->
-                val currentMediaTimeMs = stats.getTime().toLong().coerceAtLeast(0L)
-                val percent = ((currentMediaTimeMs * 100L) / durationMs)
-                    .toInt()
-                    .coerceIn(0, 99)
-                val elapsedMs = (System.currentTimeMillis() - startTimeMs).coerceAtLeast(1L)
-                val etaMs = if (percent > 0) {
-                    (elapsedMs * (100 - percent)) / percent
-                } else {
-                    -1L
-                }
-                onProgress(
-                    CompressionProgress(
-                        percent = percent,
-                        elapsedMs = elapsedMs,
-                        etaMs = etaMs
-                    )
-                )
-            }
-
             val parsedPresetArgs = preset.ffmpegArgs
                 .trim()
                 .split(Regex("\\s+"))
-                .toTypedArray()
+                .joinToString(" ")
 
             // -y overwrites the staged output file if created beforehand.
-            val command = arrayOf("-y", "-i", tempInput.absolutePath) +
-                parsedPresetArgs +
-                arrayOf(tempOutput.absolutePath)
+            val command = "-y -i \"${tempInput.absolutePath}\" $parsedPresetArgs \"${tempOutput.absolutePath}\""
 
-            val returnCode = FFmpegKit.execute(command)
-            FFmpegKitConfig.enableStatisticsCallback(null)
+            val session: FFmpegSession = FFmpegKit.execute(command)
+
+            val returnCode = session.getReturnCode()
 
             when (returnCode) {
                 ReturnCode.SUCCESS -> {
@@ -108,15 +86,13 @@ class VideoCompressor(private val context: Context) {
                 ReturnCode.CANCEL -> CompressionResult.Cancelled
 
                 else -> {
-                    val lastLog = FFmpegKitConfig.getLastCommandOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
+                    val lastLog = session.getOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
                     CompressionResult.Error("FFmpeg exited ($returnCode): $lastLog")
                 }
             }
         } catch (e: Exception) {
-            FFmpegKitConfig.enableStatisticsCallback(null)
             CompressionResult.Error(e.message ?: "Unexpected error during compression")
         } finally {
-            FFmpegKitConfig.enableStatisticsCallback(null)
             tempInput.delete()
             tempOutput.delete()
         }
