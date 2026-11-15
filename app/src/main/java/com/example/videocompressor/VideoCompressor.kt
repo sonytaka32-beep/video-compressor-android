@@ -60,8 +60,9 @@ class VideoCompressor(private val context: Context) {
 
             val returnCode = session.getReturnCode()
 
-            val result = when (returnCode) {
-                ReturnCode.SUCCESS -> {
+            // Use when without subject to avoid type inference issues with Java enum
+            val result = when {
+                returnCode == ReturnCode.SUCCESS -> {
                     if (!tempOutput.exists() || tempOutput.length() == 0L) {
                         CompressionResult.Error("Encoder produced an empty file.")
                     } else {
@@ -86,7 +87,7 @@ class VideoCompressor(private val context: Context) {
                         }
                     }
                 }
-                ReturnCode.CANCEL -> CompressionResult.Cancelled
+                returnCode == ReturnCode.CANCEL -> CompressionResult.Cancelled
                 else -> {
                     val lastLog = session.getOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
                     CompressionResult.Error("FFmpeg exited ($returnCode): $lastLog")
