@@ -4,8 +4,9 @@ import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
-import com.arthenica.mobileffmpeg.Config
-import com.arthenica.mobileffmpeg.FFmpeg
+import com.arthenica.ffmpegkit.FFmpegKit
+import com.arthenica.ffmpegkit.FFmpegKitConfig
+import com.arthenica.ffmpegkit.ReturnCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -47,9 +48,9 @@ class VideoCompressor(private val context: Context) {
             copyUriToFile(inputUri, tempInput)
             val durationMs = extractDurationMs(tempInput).coerceAtLeast(1L)
 
-            Config.resetStatistics()
-            Config.enableStatisticsCallback { stats ->
-                val currentMediaTimeMs = stats.time.toLong().coerceAtLeast(0L)
+            FFmpegKitConfig.resetStatistics()
+            FFmpegKitConfig.enableStatisticsCallback { stats ->
+                val currentMediaTimeMs = stats.getTime().toLong().coerceAtLeast(0L)
                 val percent = ((currentMediaTimeMs * 100L) / durationMs)
                     .toInt()
                     .coerceIn(0, 99)
@@ -78,11 +79,11 @@ class VideoCompressor(private val context: Context) {
                 parsedPresetArgs +
                 arrayOf(tempOutput.absolutePath)
 
-            val returnCode = FFmpeg.execute(command)
-            Config.enableStatisticsCallback(null)
+            val returnCode = FFmpegKit.execute(command)
+            FFmpegKitConfig.enableStatisticsCallback(null)
 
             when (returnCode) {
-                Config.RETURN_CODE_SUCCESS -> {
+                ReturnCode.SUCCESS -> {
                     if (!tempOutput.exists() || tempOutput.length() == 0L) {
                         return@withContext CompressionResult.Error("Encoder produced an empty file.")
                     }
@@ -104,25 +105,25 @@ class VideoCompressor(private val context: Context) {
                     )
                 }
 
-                Config.RETURN_CODE_CANCEL -> CompressionResult.Cancelled
+                ReturnCode.CANCEL -> CompressionResult.Cancelled
 
                 else -> {
-                    val lastLog = Config.getLastCommandOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
+                    val lastLog = FFmpegKitConfig.getLastCommandOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
                     CompressionResult.Error("FFmpeg exited ($returnCode): $lastLog")
                 }
             }
         } catch (e: Exception) {
-            Config.enableStatisticsCallback(null)
+            FFmpegKitConfig.enableStatisticsCallback(null)
             CompressionResult.Error(e.message ?: "Unexpected error during compression")
         } finally {
-            Config.enableStatisticsCallback(null)
+            FFmpegKitConfig.enableStatisticsCallback(null)
             tempInput.delete()
             tempOutput.delete()
         }
     }
 
     fun cancelActive() {
-        FFmpeg.cancel()
+        FFmpegKit.cancel()
     }
 
     private fun copyUriToFile(sourceUri: Uri, targetFile: File) {
