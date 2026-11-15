@@ -11,10 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
-    env:
-      ANDROID_HOME: /usr/lib/android-sdk
-      ANDROID_SDK_ROOT: /usr/lib/android-sdk
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,25 +22,12 @@ jobs:
           java-version: '17'
 
       - name: Set up Android SDK
-        run: |
-          # Use pre-installed Android SDK
-          echo "ANDROID_HOME=/usr/lib/android-sdk" >> $GITHUB_ENV
-          echo "ANDROID_SDK_ROOT=/usr/lib/android-sdk" >> $GITHUB_ENV
-          echo "/usr/lib/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
-          echo "/usr/lib/android-sdk/platform-tools" >> $GITHUB_PATH
-          
-          # Accept licenses
-          yes | /usr/lib/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
-
-      - name: Cache Gradle packages and build outputs
-        uses: actions/cache@v4
+        uses: android-actions/setup-android@v3
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle/libs.versions.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          api-level: 34
+          ndk-version: r27c
+          build-tools-version: 34.0.0
+          cache: gradle
 
       - name: Build assembleRelease
         run: |
