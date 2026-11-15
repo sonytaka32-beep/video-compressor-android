@@ -87,7 +87,8 @@ class VideoCompressor(private val context: Context) {
 
                 else -> {
                     val lastLog = session.getOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
-                    CompressionResult.Error("FFmpeg exited ($returnCode): $lastLog")
+                    val codeString = returnCode.toString()
+                    CompressionResult.Error("FFmpeg exited ($codeString): $lastLog")
                 }
             }
         } catch (e: Exception) {
