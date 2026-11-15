@@ -58,7 +58,7 @@ class VideoCompressor(private val context: Context) {
 
             val session: FFmpegSession = FFmpegKit.execute(command)
 
-            val returnCode = session.getReturnCode()
+            val returnCode: ReturnCode = session.getReturnCode()
 
             if (returnCode == ReturnCode.SUCCESS) {
                 if (!tempOutput.exists() || tempOutput.length() == 0L) {
