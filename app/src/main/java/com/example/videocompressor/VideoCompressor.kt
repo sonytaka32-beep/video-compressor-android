@@ -61,7 +61,7 @@ class VideoCompressor(private val context: Context) {
             val returnCode = session.getReturnCode()
 
             when (returnCode) {
-                ReturnCode.SUCCESS -> {
+                ReturnCode.SUCCESS.value -> {
                     if (!tempOutput.exists() || tempOutput.length() == 0L) {
                         return@withContext CompressionResult.Error("Encoder produced an empty file.")
                     }
@@ -83,7 +83,7 @@ class VideoCompressor(private val context: Context) {
                     )
                 }
 
-                ReturnCode.CANCEL -> CompressionResult.Cancelled
+                ReturnCode.CANCEL.value -> CompressionResult.Cancelled
 
                 else -> {
                     val lastLog = session.getOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
