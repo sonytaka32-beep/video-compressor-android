@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.FFmpegSession
+import com.arthenica.ffmpegkit.ReturnCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -57,10 +58,10 @@ class VideoCompressor(private val context: Context) {
 
             val session: FFmpegSession = FFmpegKit.execute(command)
 
-            val returnCode: Int = session.getReturnCode()
+            val returnCode = session.getReturnCode()
 
             when (returnCode) {
-                0 -> { // ReturnCode.SUCCESS
+                ReturnCode.SUCCESS -> {
                     if (!tempOutput.exists() || tempOutput.length() == 0L) {
                         return@withContext CompressionResult.Error("Encoder produced an empty file.")
                     }
@@ -82,7 +83,7 @@ class VideoCompressor(private val context: Context) {
                     )
                 }
 
-                1 -> CompressionResult.Cancelled // ReturnCode.CANCEL
+                ReturnCode.CANCEL -> CompressionResult.Cancelled
 
                 else -> {
                     val lastLog = session.getOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
