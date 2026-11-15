@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
+    env:
+      ANDROID_HOME: /usr/lib/android-sdk
+      ANDROID_SDK_ROOT: /usr/lib/android-sdk
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,13 +25,27 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Install Android SDK components
+        run: |
+          # Use pre-installed Android SDK at /usr/lib/android-sdk
+          export ANDROID_HOME=/usr/lib/android-sdk
+          export ANDROID_SDK_ROOT=/usr/lib/android-sdk
+          
+          # Accept licenses
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+          
+          # Install required components
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" "ndk;27.1.12297006"
+
+      - name: Cache Gradle packages and build outputs
+        uses: actions/cache@v4
         with:
-          api-level: 34
-          ndk-version: r27c
-          build-tools-version: 34.0.0
-          cache: gradle
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Build assembleRelease
         run: |
