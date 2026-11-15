@@ -45,4 +45,4 @@ A single-screen Material 3 Android video compressor built with **Kotlin**, **Cor
 
 ## GitHub Actions CI
 
-Pushing to `main` or manually triggering the **Android Release APK CI** workflow via `workflow_dispatch` compiles `assembleRelease` on `ubuntu-latest` with JDK 17 and uploads `app-release-unsigned.apk` as a workflow artifact in under 10 minutes.
+Pushing to `main` or manually triggering the **Android Release APK CI** workflow via `workflow_dispatch` compiles `assembleRelease` on `ubuntu-latest` with JDK 17 and uploads `app-release-unsigned.apk` as a workflow artifact in under 10 minutes.# Build trigger
