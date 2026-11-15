@@ -60,7 +60,7 @@ class VideoCompressor(private val context: Context) {
 
             val returnCode = session.getReturnCode()
 
-            return when (returnCode) {
+            val result = when (returnCode) {
                 ReturnCode.SUCCESS -> {
                     if (!tempOutput.exists() || tempOutput.length() == 0L) {
                         CompressionResult.Error("Encoder produced an empty file.")
@@ -92,6 +92,7 @@ class VideoCompressor(private val context: Context) {
                     CompressionResult.Error("FFmpeg exited ($returnCode): $lastLog")
                 }
             }
+            result
         } catch (e: Exception) {
             CompressionResult.Error(e.message ?: "Unexpected error during compression")
         } finally {
