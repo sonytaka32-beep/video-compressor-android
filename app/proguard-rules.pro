@@ -1,2 +1,2 @@
--keep class com.arthenica.mobileffmpeg.** { *; }
--dontwarn com.arthenica.mobileffmpeg.**
+-keep class com.arthenica.ffmpegkit.** { *; }
+-dontwarn com.arthenica.ffmpegkit.**
