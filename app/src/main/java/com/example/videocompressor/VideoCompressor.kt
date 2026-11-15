@@ -47,6 +47,7 @@ class VideoCompressor(private val context: Context) {
             copyUriToFile(inputUri, tempInput)
             val durationMs = extractDurationMs(tempInput).coerceAtLeast(1L)
 
+            // Reset and enable statistics callback for progress tracking
             FFmpegKitConfig.enableStatisticsCallback { stats ->
                 val currentMediaTimeMs = stats.time.toLong().coerceAtLeast(0L)
                 val percent = ((currentMediaTimeMs * 100L) / durationMs)
