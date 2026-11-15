@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.FFmpegSession
+import com.arthenica.ffmpegkit.ReturnCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -57,33 +58,39 @@ class VideoCompressor(private val context: Context) {
 
             val session: FFmpegSession = FFmpegKit.execute(command)
 
-            val returnCode: Int = session.getReturnCode().ordinal
+            val returnCode = session.getReturnCode()
 
-            if (returnCode == 0) { // ReturnCode.SUCCESS
-                if (!tempOutput.exists() || tempOutput.length() == 0L) {
-                    return@withContext CompressionResult.Error("Encoder produced an empty file.")
+            return when (returnCode) {
+                ReturnCode.SUCCESS -> {
+                    if (!tempOutput.exists() || tempOutput.length() == 0L) {
+                        CompressionResult.Error("Encoder produced an empty file.")
+                    } else {
+                        val compressedSize = tempOutput.length()
+                        val savedDocUri = writeToOutputTree(
+                            tempOutput = tempOutput,
+                            outputTreeUri = outputTreeUri,
+                            originalName = inputDisplayName,
+                            preset = preset
+                        ) ?: CompressionResult.Error(
+                            "Failed to write output file to selected SAF directory."
+                        )
+                        if (savedDocUri is CompressionResult.Error) {
+                            savedDocUri
+                        } else {
+                            val totalElapsedMs = System.currentTimeMillis() - startTimeMs
+                            CompressionResult.Success(
+                                outputUri = savedDocUri,
+                                compressedSizeBytes = compressedSize,
+                                elapsedMs = totalElapsedMs
+                            )
+                        }
+                    }
                 }
-                val compressedSize = tempOutput.length()
-                val savedDocUri = writeToOutputTree(
-                    tempOutput = tempOutput,
-                    outputTreeUri = outputTreeUri,
-                    originalName = inputDisplayName,
-                    preset = preset
-                ) ?: return@withContext CompressionResult.Error(
-                    "Failed to write output file to selected SAF directory."
-                )
-
-                val totalElapsedMs = System.currentTimeMillis() - startTimeMs
-                CompressionResult.Success(
-                    outputUri = savedDocUri,
-                    compressedSizeBytes = compressedSize,
-                    elapsedMs = totalElapsedMs
-                )
-            } else if (returnCode == 1) { // ReturnCode.CANCEL
-                CompressionResult.Cancelled
-            } else {
-                val lastLog = session.getOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
-                CompressionResult.Error("FFmpeg exited ($returnCode): $lastLog")
+                ReturnCode.CANCEL -> CompressionResult.Cancelled
+                else -> {
+                    val lastLog = session.getOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
+                    CompressionResult.Error("FFmpeg exited ($returnCode): $lastLog")
+                }
             }
         } catch (e: Exception) {
             CompressionResult.Error(e.message ?: "Unexpected error during compression")
