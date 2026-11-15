@@ -58,38 +58,34 @@ class VideoCompressor(private val context: Context) {
 
             val session: FFmpegSession = FFmpegKit.execute(command)
 
-            val returnCode: ReturnCode = session.getReturnCode()
+            val returnCode = session.getReturnCode()
 
-            when (returnCode) {
-                ReturnCode.SUCCESS -> {
-                    if (!tempOutput.exists() || tempOutput.length() == 0L) {
-                        return@withContext CompressionResult.Error("Encoder produced an empty file.")
-                    }
-                    val compressedSize = tempOutput.length()
-                    val savedDocUri = writeToOutputTree(
-                        tempOutput = tempOutput,
-                        outputTreeUri = outputTreeUri,
-                        originalName = inputDisplayName,
-                        preset = preset
-                    ) ?: return@withContext CompressionResult.Error(
-                        "Failed to write output file to selected SAF directory."
-                    )
-
-                    val totalElapsedMs = System.currentTimeMillis() - startTimeMs
-                    CompressionResult.Success(
-                        outputUri = savedDocUri,
-                        compressedSizeBytes = compressedSize,
-                        elapsedMs = totalElapsedMs
-                    )
+            if (returnCode == ReturnCode.SUCCESS) {
+                if (!tempOutput.exists() || tempOutput.length() == 0L) {
+                    return@withContext CompressionResult.Error("Encoder produced an empty file.")
                 }
+                val compressedSize = tempOutput.length()
+                val savedDocUri = writeToOutputTree(
+                    tempOutput = tempOutput,
+                    outputTreeUri = outputTreeUri,
+                    originalName = inputDisplayName,
+                    preset = preset
+                ) ?: return@withContext CompressionResult.Error(
+                    "Failed to write output file to selected SAF directory."
+                )
 
-                ReturnCode.CANCEL -> CompressionResult.Cancelled
-
-                else -> {
-                    val lastLog = session.getOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
-                    val codeString = returnCode.toString()
-                    CompressionResult.Error("FFmpeg exited ($codeString): $lastLog")
-                }
+                val totalElapsedMs = System.currentTimeMillis() - startTimeMs
+                CompressionResult.Success(
+                    outputUri = savedDocUri,
+                    compressedSizeBytes = compressedSize,
+                    elapsedMs = totalElapsedMs
+                )
+            } else if (returnCode == ReturnCode.CANCEL) {
+                CompressionResult.Cancelled
+            } else {
+                val lastLog = session.getOutput()?.takeLast(300) ?: "Unknown FFmpeg error"
+                val codeString = returnCode.toString()
+                CompressionResult.Error("FFmpeg exited ($codeString): $lastLog")
             }
         } catch (e: Exception) {
             CompressionResult.Error(e.message ?: "Unexpected error during compression")
