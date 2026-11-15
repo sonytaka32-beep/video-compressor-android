@@ -54,5 +54,5 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.documentfile)
     implementation(libs.androidx.recyclerview)
-    implementation(libs.ffmpeg.kit)
+    implementation(libs.ffmpeg.kit.full.gpl)
 }

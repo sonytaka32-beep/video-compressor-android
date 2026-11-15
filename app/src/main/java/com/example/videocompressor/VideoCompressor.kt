@@ -111,11 +111,17 @@ class VideoCompressor(private val context: Context) {
             }
 
             result
-        } catch (e: Exception) {
-            FFmpegKitConfig.enableStatisticsCallback(null)
-            CompressionResult.Error(e.message ?: "Unexpected error during compression")
+        } catch (t: Throwable) {
+            try {
+                FFmpegKitConfig.enableStatisticsCallback(null)
+            } catch (_: Throwable) {
+            }
+            CompressionResult.Error(t.message ?: "Unexpected native error: ${t.javaClass.simpleName}")
         } finally {
-            FFmpegKitConfig.enableStatisticsCallback(null)
+            try {
+                FFmpegKitConfig.enableStatisticsCallback(null)
+            } catch (_: Throwable) {
+            }
             tempInput.delete()
             tempOutput.delete()
         }
