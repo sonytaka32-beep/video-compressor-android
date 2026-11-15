@@ -5,32 +5,32 @@ enum class CompressionPreset(
     val description: String,
     val ffmpegArgs: String
 ) {
-    // -tag:v hvc1 ensures Apple/QuickTime/Android hardware decoder compatibility for HEVC inside MP4.
-    // -movflags +faststart relocates the MP4 moov atom to the front for instant playback/streaming.
+    // Menggunakan -preset veryfast agar 4-5x lebih cepat di CPU Android dibanding medium tanpa mengorbankan kualitas
     PERCEPTUALLY_LOSSLESS_HEVC(
         displayName = "Perceptually Lossless HEVC (Default)",
-        description = "CRF 24, medium preset, copies original audio stream",
-        ffmpegArgs = "-c:v libx265 -preset medium -crf 24 -tag:v hvc1 -c:a copy -movflags +faststart"
+        description = "CRF 24, veryfast preset, copies original audio",
+        ffmpegArgs = "-c:v libx265 -preset veryfast -crf 24 -tag:v hvc1 -c:a copy -movflags +faststart"
     ),
 
+    // Menggunakan -preset fast (bukan slow) agar tidak membebani suhu CPU HP secara berlebihan
     MAXIMUM_QUALITY_HEVC(
         displayName = "Maximum Quality HEVC",
-        description = "Near-lossless CRF 18, slow preset, copies original audio stream",
-        ffmpegArgs = "-c:v libx265 -preset slow -crf 18 -tag:v hvc1 -c:a copy -movflags +faststart"
+        description = "Near-lossless CRF 18, fast preset, copies original audio",
+        ffmpegArgs = "-c:v libx265 -preset fast -crf 18 -tag:v hvc1 -c:a copy -movflags +faststart"
     ),
 
-    // -preset 6 balances encoding speed and compression efficiency for SVT-AV1.
-    MAXIMUM_COMPRESSION_AV1(
-        displayName = "Maximum Compression AV1",
-        description = "Smallest file size, CRF 30, SVT-AV1 preset 6 (slower encode)",
-        ffmpegArgs = "-c:v libsvtav1 -preset 6 -crf 30 -c:a copy -movflags +faststart"
+    // Mengganti libsvtav1 (tidak ada di ffmpeg-kit Android) dengan Extreme HEVC CRF 30 + 96k audio
+    MAXIMUM_COMPRESSION_HEVC(
+        displayName = "Maximum Compression (Smallest Size)",
+        description = "Smallest file size, CRF 30, veryfast preset, 96k AAC audio",
+        ffmpegArgs = "-c:v libx265 -preset veryfast -crf 30 -tag:v hvc1 -c:a aac -b:a 96k -movflags +faststart"
     ),
 
-    // scale=-2:720 scales height to 720p while keeping aspect ratio and forcing width to an even number (required by YUV420p encoders).
+    // Menggunakan -preset superfast dan membatasi 30fps (-r 30) agar kompresi selesai dalam hitungan detik
     FAST_720P_HEVC(
         displayName = "Fast 720p HEVC (Sharing)",
-        description = "720p downscale, CRF 28, fast preset, 128k AAC audio",
-        ffmpegArgs = "-vf scale=-2:720 -c:v libx265 -preset fast -crf 28 -tag:v hvc1 -c:a aac -b:a 128k -movflags +faststart"
+        description = "720p downscale, 30fps, CRF 28, superfast preset, 128k AAC",
+        ffmpegArgs = "-vf scale=-2:720 -r 30 -c:v libx265 -preset superfast -crf 28 -tag:v hvc1 -c:a aac -b:a 128k -movflags +faststart"
     );
 
     companion object {

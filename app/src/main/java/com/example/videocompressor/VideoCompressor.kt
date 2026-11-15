@@ -168,7 +168,7 @@ class VideoCompressor(private val context: Context) {
         val suffix = when (preset) {
             CompressionPreset.PERCEPTUALLY_LOSSLESS_HEVC -> "hevc_crf24"
             CompressionPreset.MAXIMUM_QUALITY_HEVC -> "hevc_crf18"
-            CompressionPreset.MAXIMUM_COMPRESSION_AV1 -> "av1_crf30"
+            CompressionPreset.MAXIMUM_COMPRESSION_HEVC -> "hevc_crf30"
             CompressionPreset.FAST_720P_HEVC -> "hevc_720p"
         }
         val targetFileName = "${baseName}_${suffix}.mp4"
