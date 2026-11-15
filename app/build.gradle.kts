@@ -18,7 +18,6 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            // Sign release APK with debug key so it can be installed directly
             signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -40,10 +39,17 @@ android {
         jvmTarget = "17"
     }
 
-    
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 }
 
 dependencies {
+    // Load ffmpeg-kit-full-gpl.aar and smart-exception JARs from app/libs folder
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.material)
@@ -54,5 +60,4 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.documentfile)
     implementation(libs.androidx.recyclerview)
-    implementation(libs.ffmpeg.kit.full.gpl)
 }
