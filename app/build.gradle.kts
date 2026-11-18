@@ -47,8 +47,8 @@ android {
 }
 
 dependencies {
-    // ffmpeg-kit-full-gpl v5.1.LTS via JitPack (includes libsvtav1, hevc_mediacodec, non-free codecs)
-    implementation("com.github.arthenica:ffmpeg-kit-full-gpl:5.1.LTS")
+    // ffmpeg-kit-full-gpl v5.1.LTS from Maven Central (includes libsvtav1, hevc_mediacodec, non-free codecs)
+    implementation("com.arthenica:ffmpeg-kit-full-gpl:5.1.LTS")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
