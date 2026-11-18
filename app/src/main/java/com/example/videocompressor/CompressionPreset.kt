@@ -5,13 +5,12 @@ enum class CompressionPreset(
     val ffmpegArgs: List<String>
 ) {
     PERCEPTUALLY_LOSSLESS_HEVC(
-        displayName = "Sonybae Lossless HEVC (Default)",
+        displayName = "Perceptually Lossless H.264 (Default)",
         ffmpegArgs = listOf(
-            "-c:v", "libx265",
-            "-crf", "24",
-            "-preset", "ultrafast",
+            "-c:v", "libx264",
+            "-crf", "23",
+            "-preset", "superfast",
             "-threads", "8",
-            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
             "-movflags", "+faststart"
@@ -19,13 +18,12 @@ enum class CompressionPreset(
     ),
 
     MAXIMUM_QUALITY_HEVC(
-        displayName = "Maximum Quality HEVC (CRF 21)",
+        displayName = "Maximum Quality H.264",
         ffmpegArgs = listOf(
-            "-c:v", "libx265",
-            "-crf", "21",
-            "-preset", "ultrafast",
+            "-c:v", "libx264",
+            "-crf", "20",
+            "-preset", "superfast",
             "-threads", "8",
-            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
             "-movflags", "+faststart"
@@ -33,42 +31,47 @@ enum class CompressionPreset(
     ),
 
     MAXIMUM_COMPRESSION_SMALLEST(
-        displayName = "Maximum Compression HEVC (Smallest Size)",
+        displayName = "Maximum Compression (Smallest Size)",
         ffmpegArgs = listOf(
-            "-c:v", "libx265",
-            "-crf", "28",
-            "-preset", "ultrafast",
+            "-c:v", "libx264",
+            "-crf", "30",
+            "-preset", "superfast",
+            "-maxrate", "1500k",
+            "-bufsize", "3000k",
             "-threads", "8",
-            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-pix_fmt", "yuv420p",
-            "-c:a", "copy",
+            "-c:a", "aac",
+            "-b:a", "64k",
             "-movflags", "+faststart"
         )
     ),
 
     MAXIMUM_COMPRESSION_60FPS(
-        displayName = "Maximum Compression 60fps HEVC",
+        displayName = "Maximum Compression 60fps (Smallest Size)",
         ffmpegArgs = listOf(
-            "-c:v", "libx265",
-            "-crf", "26",
-            "-preset", "ultrafast",
+            "-c:v", "libx264",
+            "-crf", "29",
+            "-preset", "superfast",
+            "-maxrate", "2400k",
+            "-bufsize", "4800k",
             "-threads", "8",
-            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-r", "60",
             "-pix_fmt", "yuv420p",
-            "-c:a", "copy",
+            "-c:a", "aac",
+            "-b:a", "64k",
             "-movflags", "+faststart"
         )
     ),
 
     FAST_720P_HEVC(
-        displayName = "Fast 720p HEVC (Sharing)",
+        displayName = "Fast 720p H.264 (Sharing)",
         ffmpegArgs = listOf(
-            "-c:v", "libx265",
-            "-crf", "25",
-            "-preset", "ultrafast",
+            "-c:v", "libx264",
+            "-crf", "28",
+            "-preset", "superfast",
+            "-maxrate", "1800k",
+            "-bufsize", "3600k",
             "-threads", "8",
-            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-vf", "scale=-2:720",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
