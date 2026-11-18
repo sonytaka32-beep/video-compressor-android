@@ -82,4 +82,14 @@ enum class CompressionPreset(
     );
 
     override fun toString(): String = displayName
+
+    companion object {
+        fun fromNameOrDefault(name: String?): CompressionPreset {
+            if (name.isNullOrBlank()) return PERCEPTUALLY_LOSSLESS_HEVC
+            return entries.firstOrNull {
+                it.name.equals(name, ignoreCase = true) ||
+                    it.displayName.equals(name, ignoreCase = true)
+            } ?: PERCEPTUALLY_LOSSLESS_HEVC
+        }
+    }
 }
