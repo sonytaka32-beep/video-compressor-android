@@ -1,6 +1,8 @@
 package com.example.videocompressor
 
 import android.content.Context
+import android.media.MediaCodecList
+import android.media.MediaFormat
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
@@ -31,6 +33,10 @@ data class CompressionProgress(
 )
 
 class VideoCompressor(private val context: Context) {
+
+    private val hardwareEncoderAvailable: Boolean by lazy {
+        checkHevcMediaCodecSupport()
+    }
 
     suspend fun compress(
         inputUri: Uri,
@@ -68,8 +74,9 @@ class VideoCompressor(private val context: Context) {
                 )
             }
 
-            // Quote file paths in case cache path contains spaces
-            val command = "-y -i \"${tempInput.absolutePath}\" ${preset.ffmpegArgs.trim()} \"${tempOutput.absolutePath}\""
+            // Build FFmpeg command with hardware acceleration if available
+            val ffmpegArgs = buildFfmpegArgs(preset, hardwareEncoderAvailable)
+            val command = "-y -i \"${tempInput.absolutePath}\" $ffmpegArgs \"${tempOutput.absolutePath}\""
 
             val session: FFmpegSession = FFmpegKit.execute(command)
             FFmpegKitConfig.enableStatisticsCallback(null)
@@ -106,6 +113,11 @@ class VideoCompressor(private val context: Context) {
                 else -> {
                     val codeValue = returnCode?.value ?: -1
                     val lastLog = session.output?.takeLast(300) ?: "Unknown FFmpeg error"
+                    // Fallback to software encoder if hardware fails
+                    if (hardwareEncoderUsed(preset) && codeValue != 0) {
+                        FFmpegKitConfig.enableStatisticsCallback(null)
+                        return@withContext trySoftwareFallback(tempInput, tempOutput, outputTreeUri, inputDisplayName, preset, durationMs, startTimeMs, onProgress)
+                    }
                     CompressionResult.Error("FFmpeg exited ($codeValue): $lastLog")
                 }
             }
@@ -127,8 +139,166 @@ class VideoCompressor(private val context: Context) {
         }
     }
 
+    private fun buildFfmpegArgs(preset: CompressionPreset, useHardware: Boolean): String {
+        val args = preset.ffmpegArgs
+        if (useHardware && hardwareEncoderAvailable && shouldUseHardwareEncoder(preset)) {
+            // Replace libx265 with hevc_mediacodec for hardware acceleration
+            return buildHardwareArgs(preset)
+        }
+        return args.joinToString(" ")
+    }
+
+    private fun shouldUseHardwareEncoder(preset: CompressionPreset): Boolean {
+        return preset == CompressionPreset.MAXIMUM_COMPRESSION_SMALLEST ||
+               preset == CompressionPreset.MAXIMUM_COMPRESSION_60FPS ||
+               preset == CompressionPreset.FAST_720P_HEVC
+    }
+
+    private fun hardwareEncoderUsed(preset: CompressionPreset): Boolean {
+        return hardwareEncoderAvailable && shouldUseHardwareEncoder(preset)
+    }
+
+    private fun buildHardwareArgs(preset: CompressionPreset): String {
+        // Hardware encoder uses bitrate-based encoding, not CRF
+        // Base config for hevc_mediacodec
+        return when (preset) {
+            CompressionPreset.MAXIMUM_COMPRESSION_SMALLEST -> {
+                listOf(
+                    "-hwaccel", "auto",
+                    "-c:v", "hevc_mediacodec",
+                    "-b:v", "1800k",
+                    "-maxrate", "2200k",
+                    "-bufsize", "3600k",
+                    "-vf", "scale='min(1280,iw)':-2,fps=30",
+                    "-pix_fmt", "yuv420p",
+                    "-c:a", "aac",
+                    "-b:a", "96k",
+                    "-movflags", "+faststart"
+                ).joinToString(" ")
+            }
+            CompressionPreset.MAXIMUM_COMPRESSION_60FPS -> {
+                listOf(
+                    "-hwaccel", "auto",
+                    "-c:v", "hevc_mediacodec",
+                    "-b:v", "1800k",
+                    "-maxrate", "2200k",
+                    "-bufsize", "3600k",
+                    "-vf", "scale='min(1280,iw)':-2",
+                    "-r", "60",
+                    "-pix_fmt", "yuv420p",
+                    "-c:a", "aac",
+                    "-b:a", "96k",
+                    "-movflags", "+faststart"
+                ).joinToString(" ")
+            }
+            CompressionPreset.FAST_720P_HEVC -> {
+                listOf(
+                    "-hwaccel", "auto",
+                    "-c:v", "hevc_mediacodec",
+                    "-b:v", "1500k",
+                    "-maxrate", "1800k",
+                    "-bufsize", "3000k",
+                    "-vf", "scale=-2:720",
+                    "-pix_fmt", "yuv420p",
+                    "-c:a", "copy",
+                    "-movflags", "+faststart"
+                ).joinToString(" ")
+            }
+            else -> preset.ffmpegArgs.joinToString(" ")
+        }
+    }
+
+    private suspend fun trySoftwareFallback(
+        tempInput: File,
+        tempOutput: File,
+        outputTreeUri: Uri,
+        inputDisplayName: String,
+        preset: CompressionPreset,
+        durationMs: Long,
+        startTimeMs: Long,
+        onProgress: (CompressionProgress) -> Unit
+    ): CompressionResult {
+        // Re-enable stats callback for fallback run
+        FFmpegKitConfig.enableStatisticsCallback { stats ->
+            val currentMediaTimeMs = stats.time.toLong().coerceAtLeast(0L)
+            val percent = ((currentMediaTimeMs * 100L) / durationMs)
+                .toInt()
+                .coerceIn(0, 99)
+            val elapsedMs = (System.currentTimeMillis() - startTimeMs).coerceAtLeast(1L)
+            val etaMs = if (percent > 0) {
+                (elapsedMs * (100 - percent)) / percent
+            } else {
+                -1L
+            }
+            onProgress(
+                CompressionProgress(
+                    percent = percent,
+                    elapsedMs = elapsedMs,
+                    etaMs = etaMs
+                )
+            )
+        }
+
+        val command = "-y -i \"${tempInput.absolutePath}\" ${preset.ffmpegArgs.joinToString(" ")} \"${tempOutput.absolutePath}\""
+        val session: FFmpegSession = FFmpegKit.execute(command)
+        FFmpegKitConfig.enableStatisticsCallback(null)
+
+        val returnCode: ReturnCode? = session.returnCode
+
+        return when {
+            ReturnCode.isSuccess(returnCode) -> {
+                if (!tempOutput.exists() || tempOutput.length() == 0L) {
+                    CompressionResult.Error("Software fallback: Encoder produced an empty file.")
+                } else {
+                    val compressedSize = tempOutput.length()
+                    val savedDocUri: Uri? = writeToOutputTree(
+                        tempOutput = tempOutput,
+                        outputTreeUri = outputTreeUri,
+                        originalName = inputDisplayName,
+                        preset = preset
+                    )
+                    if (savedDocUri == null) {
+                        CompressionResult.Error("Software fallback: Failed to write output file to selected SAF directory.")
+                    } else {
+                        val totalElapsedMs = System.currentTimeMillis() - startTimeMs
+                        CompressionResult.Success(
+                            outputUri = savedDocUri,
+                            compressedSizeBytes = compressedSize,
+                            elapsedMs = totalElapsedMs
+                        )
+                    }
+                }
+            }
+            ReturnCode.isCancel(returnCode) -> CompressionResult.Cancelled
+            else -> {
+                val codeValue = returnCode?.value ?: -1
+                val lastLog = session.output?.takeLast(300) ?: "Unknown FFmpeg error"
+                CompressionResult.Error("Software fallback failed ($codeValue): $lastLog")
+            }
+        }
+    }
+
     fun cancelActive() {
         FFmpegKit.cancel()
+    }
+
+    private fun checkHevcMediaCodecSupport(): Boolean {
+        try {
+            val codecList = MediaCodecList(MediaCodecList.REGULAR_CODECS)
+            val codecInfos = codecList.codecInfos
+            for (info in codecInfos) {
+                if (info.isEncoder) {
+                    val caps = info.capabilitiesForType("video/hevc")
+                    if (caps != null) {
+                        // Check if hardware encoder is available
+                        return true
+                    }
+                }
+            }
+        } catch (_: Exception) {
+            // Ignore and return false
+        }
+        return false
     }
 
     private fun copyUriToFile(sourceUri: Uri, targetFile: File) {
@@ -166,10 +336,11 @@ class VideoCompressor(private val context: Context) {
         val treeDir = DocumentFile.fromTreeUri(context, outputTreeUri) ?: return null
         val baseName = originalName.substringBeforeLast(".")
         val suffix = when (preset) {
-            CompressionPreset.PERCEPTUALLY_LOSSLESS_HEVC -> "hevc_crf24"
-            CompressionPreset.MAXIMUM_QUALITY_HEVC -> "hevc_crf18"
-            CompressionPreset.MAXIMUM_COMPRESSION_HEVC -> "hevc_crf30"
-            CompressionPreset.FAST_720P_HEVC -> "hevc_720p"
+            CompressionPreset.PERCEPTUALLY_LOSSLESS_HEVC -> "hevc_crf23_superfast"
+            CompressionPreset.MAXIMUM_QUALITY_HEVC -> "hevc_crf20_veryfast"
+            CompressionPreset.MAXIMUM_COMPRESSION_SMALLEST -> "hevc_crf30_ultrafast_30fps"
+            CompressionPreset.MAXIMUM_COMPRESSION_60FPS -> "hevc_crf30_ultrafast_60fps"
+            CompressionPreset.FAST_720P_HEVC -> "hevc_crf26_ultrafast_720p"
         }
         val targetFileName = "${baseName}_${suffix}.mp4"
 

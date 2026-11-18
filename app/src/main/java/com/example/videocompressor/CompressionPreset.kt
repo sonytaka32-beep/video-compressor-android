@@ -2,36 +2,85 @@ package com.example.videocompressor
 
 enum class CompressionPreset(
     val displayName: String,
-    val description: String,
-    val ffmpegArgs: String
+    val ffmpegArgs: List<String>
 ) {
-    // Menggunakan -preset veryfast agar 4-5x lebih cepat di CPU Android dibanding medium tanpa mengorbankan kualitas
     PERCEPTUALLY_LOSSLESS_HEVC(
         displayName = "Perceptually Lossless HEVC (Default)",
-        description = "CRF 24, veryfast preset, copies original audio",
-        ffmpegArgs = "-c:v libx265 -preset veryfast -crf 24 -tag:v hvc1 -c:a copy -movflags +faststart"
+        ffmpegArgs = listOf(
+            "-c:v", "libx265",
+            "-crf", "23",
+            "-preset", "superfast",
+            "-threads", "0",
+            "-x265-params", "pools=+:frame-threads=4",
+            "-pix_fmt", "yuv420p",
+            "-c:a", "copy",
+            "-movflags", "+faststart"
+        )
     ),
 
-    // Menggunakan -preset fast (bukan slow) agar tidak membebani suhu CPU HP secara berlebihan
     MAXIMUM_QUALITY_HEVC(
         displayName = "Maximum Quality HEVC",
-        description = "Near-lossless CRF 18, fast preset, copies original audio",
-        ffmpegArgs = "-c:v libx265 -preset fast -crf 18 -tag:v hvc1 -c:a copy -movflags +faststart"
+        ffmpegArgs = listOf(
+            "-c:v", "libx265",
+            "-crf", "20",
+            "-preset", "veryfast",
+            "-threads", "0",
+            "-x265-params", "pools=+:frame-threads=4",
+            "-pix_fmt", "yuv420p",
+            "-c:a", "copy",
+            "-movflags", "+faststart"
+        )
     ),
 
-    // Mengganti libsvtav1 (tidak ada di ffmpeg-kit Android) dengan Extreme HEVC CRF 30 + 96k audio
-    MAXIMUM_COMPRESSION_HEVC(
+    MAXIMUM_COMPRESSION_SMALLEST(
         displayName = "Maximum Compression (Smallest Size)",
-        description = "Smallest file size, CRF 30, veryfast preset, 96k AAC audio",
-        ffmpegArgs = "-c:v libx265 -preset veryfast -crf 30 -tag:v hvc1 -c:a aac -b:a 96k -movflags +faststart"
+        ffmpegArgs = listOf(
+            "-c:v", "libx265",
+            "-crf", "30",
+            "-preset", "ultrafast",
+            "-threads", "0",
+            "-x265-params", "pools=+:frame-threads=4",
+            "-vf", "scale='min(1280,iw)':-2,fps=30",
+            "-pix_fmt", "yuv420p",
+            "-c:a", "aac",
+            "-b:a", "96k",
+            "-movflags", "+faststart"
+        )
     ),
 
-    // Menggunakan -preset superfast dan membatasi 30fps (-r 30) agar kompresi selesai dalam hitungan detik
+    MAXIMUM_COMPRESSION_60FPS(
+        displayName = "Maximum Compression 60fps (Smallest Size)",
+        ffmpegArgs = listOf(
+            "-c:v", "libx265",
+            "-crf", "30",
+            "-preset", "ultrafast",
+            "-threads", "0",
+            "-x265-params", "pools=+:frame-threads=4",
+            "-vf", "scale='min(1280,iw)':-2",
+            "-r", "60",
+            "-pix_fmt", "yuv420p",
+            "-c:a", "aac",
+            "-b:a", "96k",
+            "-movflags", "+faststart"
+        )
+    ),
+
     FAST_720P_HEVC(
         displayName = "Fast 720p HEVC (Sharing)",
-        description = "720p downscale, 30fps, CRF 28, superfast preset, 128k AAC",
-        ffmpegArgs = "-vf scale=-2:720 -r 30 -c:v libx265 -preset superfast -crf 28 -tag:v hvc1 -c:a aac -b:a 128k -movflags +faststart"
+        ffmpegArgs = listOf(
+            "-c:v", "libx265",
+            "-crf", "26",
+            "-preset", "ultrafast",
+            "-threads", "0",
+            "-x265-params", "pools=+:frame-threads=4",
+            "-vf", "scale=-2:720",
+            "-pix_fmt", "yuv420p",
+            "-c:a", "copy",
+            "-movflags", "+faststart"
+        )
     );
+
+    override fun toString(): String = displayName
 
     companion object {
         fun fromNameOrDefault(name: String?): CompressionPreset {

@@ -47,8 +47,8 @@ android {
 }
 
 dependencies {
-    // Load ffmpeg-kit-full-gpl.aar and smart-exception JARs from app/libs folder
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
+    // ffmpeg-kit-full-gpl v5.1.LTS via JitPack (includes libsvtav1, hevc_mediacodec, non-free codecs)
+    implementation("com.github.arthenica:ffmpeg-kit-full-gpl:5.1.LTS")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
