@@ -238,7 +238,7 @@ class VideoCompressor(private val context: Context) {
             )
         }
 
-        val command = "-y -i \"${tempInput.absolutePath}\" ${preset.ffmpegArgs.joinToString(" ")} \"${tempOutput.absolutePath}\""
+        val command = "-y -threads 0 -i \"${tempInput.absolutePath}\" ${preset.ffmpegArgs.joinToString(" ")} \"${tempOutput.absolutePath}\""
         val session: FFmpegSession = FFmpegKit.execute(command)
         FFmpegKitConfig.enableStatisticsCallback(null)
 
