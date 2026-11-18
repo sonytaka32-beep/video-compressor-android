@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- GTA 6 Vice Sunset & Neon Cyan Palette -->
-    <color name="gta_bg_night">#0B0514</color>
-    <color name="gta_surface_dark">#150B24</color>
-    <color name="gta_card_surface">#1E1035</color>
-    <color name="gta_neon_pink">#FF1E8A</color>
-    <color name="gta_pink_dark">#590830</color>
+    <!-- GTA VI Logo Official Palette -->
+    <color name="gta_bg_night">#080312</color>
+    <color name="gta_surface_dark">#B3140726</color>
+    <color name="gta_card_surface">#CC1F0A38</color>
+    <color name="gta_neon_pink">#FF2A85</color>
+    <color name="gta_pink_dark">#660836</color>
     <color name="gta_electric_cyan">#00F5FF</color>
-    <color name="gta_cyan_dark">#003E47</color>
-    <color name="gta_sunset_orange">#FF8C00</color>
+    <color name="gta_cyan_dark">#003B47</color>
+    <color name="gta_sunset_orange">#FF9800</color>
+    <color name="gta_vi_blue">#2962FF</color>
     <color name="gta_text_white">#FFFFFF</color>
-    <color name="gta_text_lavender">#D4C2F0</color>
-    <color name="gta_border_neon">#7A2E8C</color>
+    <color name="gta_text_lavender">#F3E5F5</color>
+    <color name="gta_border_neon">#FF2A85</color>
 </resources>

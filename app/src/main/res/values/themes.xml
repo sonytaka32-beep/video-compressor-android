@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.VideoCompressor" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="android:windowBackground">@color/gta_bg_night</item>
+        <!-- Background Bergambar GTA VI Logo & Vice City Sunset -->
+        <item name="android:windowBackground">@drawable/bg_gta6_vice_city</item>
         <item name="android:statusBarColor">@color/gta_bg_night</item>
         <item name="android:navigationBarColor">@color/gta_bg_night</item>
 
-        <!-- Primary: Hot Vice Magenta -->
+        <!-- Otomatis Ratakan Tengah Judul Toolbar Atas -->
+        <item name="toolbarStyle">@style/Widget.Sonybae.GtaToolbar</item>
+
+        <!-- Primary: GTA VI Hot Pink -->
         <item name="colorPrimary">@color/gta_neon_pink</item>
         <item name="colorOnPrimary">@color/gta_text_white</item>
         <item name="colorPrimaryContainer">@color/gta_pink_dark</item>
         <item name="colorOnPrimaryContainer">@color/gta_text_white</item>
 
-        <!-- Secondary: Electric Vice Cyan -->
+        <!-- Secondary: Vice Electric Cyan & Blue -->
         <item name="colorSecondary">@color/gta_electric_cyan</item>
         <item name="colorOnSecondary">@color/gta_bg_night</item>
         <item name="colorSecondaryContainer">@color/gta_cyan_dark</item>
@@ -20,7 +24,7 @@
         <!-- Tertiary: Sunset Gold -->
         <item name="colorTertiary">@color/gta_sunset_orange</item>
 
-        <!-- Surfaces & Cards -->
+        <!-- Kartu Semi-Transparan & Garis Tepi Neon Pink -->
         <item name="colorSurface">@color/gta_surface_dark</item>
         <item name="colorOnSurface">@color/gta_text_white</item>
         <item name="colorSurfaceVariant">@color/gta_card_surface</item>
@@ -28,16 +32,23 @@
         <item name="colorOutline">@color/gta_border_neon</item>
     </style>
 
-    <!-- Tipografi Judul Besar Ala GTA 6 -->
+    <!-- Style Toolbar agar Judul SONYBAE COMPRESS Rata Tengah -->
+    <style name="Widget.Sonybae.GtaToolbar" parent="Widget.Material3.Toolbar">
+        <item name="titleCentered">true</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Sonybae.GtaTitle</item>
+        <item name="titleTextColor">@color/gta_text_white</item>
+    </style>
+
+    <!-- Tipografi Judul Tebal Putih dengan Outline Ungu Gelap Ala GTA VI -->
     <style name="TextAppearance.Sonybae.GtaTitle" parent="TextAppearance.Material3.HeadlineMedium">
-        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:fontFamily">sans-serif-black</item>
         <item name="android:textStyle">bold|italic</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:letterSpacing">0.06</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:letterSpacing">0.05</item>
         <item name="android:textColor">@color/gta_text_white</item>
-        <item name="android:shadowColor">@color/gta_neon_pink</item>
-        <item name="android:shadowDx">3</item>
-        <item name="android:shadowDy">3</item>
-        <item name="android:shadowRadius">10</item>
+        <item name="android:shadowColor">#240038</item>
+        <item name="android:shadowDx">4</item>
+        <item name="android:shadowDy">4</item>
+        <item name="android:shadowRadius">2</item>
     </style>
 </resources>

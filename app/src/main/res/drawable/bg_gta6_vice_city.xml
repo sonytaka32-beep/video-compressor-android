@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="360dp"
+    android:height="800dp"
+    android:viewportWidth="360"
+    android:viewportHeight="800">
+
+    <!-- 1. LANGIT MALAM & SUNSET VICE CITY -->
+    <path android:pathData="M0,0 H360 V800 H0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="180"
+                android:startY="0"
+                android:endX="180"
+                android:endY="800"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#080312" />
+                <item android:offset="0.35" android:color="#180830" />
+                <item android:offset="0.62" android:color="#4A0E4E" />
+                <item android:offset="0.78" android:color="#8C1B5A" />
+                <item android:offset="1.0" android:color="#090314" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- 2. CAHAYA MATAHARI SUNSET DI TENGAH LAYAR -->
+    <path android:pathData="M180,350 m-140,0 a140,140 0 1,0 280,0 a140,140 0 1,0 -280,0">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="180"
+                android:centerY="490"
+                android:gradientRadius="160"
+                android:type="radial">
+                <item android:offset="0.0" android:color="#66FF7B00" />
+                <item android:offset="0.5" android:color="#44FF1E8A" />
+                <item android:offset="1.0" android:color="#00180830" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- 3. SILUET GEDUNG KOTA VICE CITY & JARING NEON BAWAH -->
+    <path
+        android:fillColor="#120422"
+        android:pathData="M0,610 V565 H18 V545 H38 V575 H52 V530 H78 V568 H92 V550 H115 V580 H245 V548 H268 V570 H285 V525 H312 V565 H330 V540 H360 V610 Z" />
+
+    <path
+        android:fillColor="#090214"
+        android:pathData="M0,610 H360 V800 H0 Z" />
+
+    <!-- Garis Horizon & Grid Neon Perspektif -->
+    <path
+        android:strokeColor="#FF2E93"
+        android:strokeWidth="2"
+        android:pathData="M0,610 H360 M0,635 H360 M0,668 H360 M0,710 H360 M0,765 H360" />
+    <path
+        android:strokeColor="#6600F5FF"
+        android:strokeWidth="1.2"
+        android:pathData="M180,610 L-60,800 M180,610 L20,800 M180,610 L100,800 M180,610 L180,800 M180,610 L260,800 M180,610 L340,800 M180,610 L420,800" />
+
+    <!-- 4. SILUET POHON KELAPA KIRI & KANAN -->
+    <path
+        android:fillColor="#160529"
+        android:pathData="M-5,620 Q25,510 52,430 L58,432 Q35,515 10,620 Z
+                          M55,432 Q15,410 -10,435 Q20,428 55,432 Z
+                          M55,432 Q20,385 -5,395 Q28,402 55,432 Z
+                          M55,432 Q60,380 35,365 Q52,395 55,432 Z
+                          M55,432 Q95,390 112,412 Q82,408 55,432 Z
+                          M55,432 Q92,425 105,455 Q78,438 55,432 Z" />
+    <path
+        android:fillColor="#160529"
+        android:pathData="M365,620 Q335,510 308,430 L302,432 Q325,515 350,620 Z
+                          M305,432 Q345,410 370,435 Q340,428 305,432 Z
+                          M305,432 Q340,385 365,395 Q332,402 305,432 Z
+                          M305,432 Q300,380 325,365 Q308,395 305,432 Z
+                          M305,432 Q265,390 248,412 Q278,408 305,432 Z
+                          M305,432 Q268,425 255,455 Q282,438 305,432 Z" />
+
+    <!-- ========================================================= -->
+    <!-- 5. LOGO RAKSASA "VI" ALA GTA 6 DI TENGAH LAYAR            -->
+    <!-- ========================================================= -->
+
+    <!-- Outline Luar Ungu Tua & Putih pada Huruf "V" dan "I" -->
+    <path
+        android:fillColor="#240038"
+        android:strokeColor="#240038"
+        android:strokeWidth="12"
+        android:strokeLineJoin="miter"
+        android:pathData="M52,340 H116 L146,455 L176,340 H234 L162,555 H130 Z
+                          M242,340 H304 V555 H242 Z" />
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="5"
+        android:strokeLineJoin="miter"
+        android:pathData="M52,340 H116 L146,455 L176,340 H234 L162,555 H130 Z
+                          M242,340 H304 V555 H242 Z" />
+
+    <!-- Isi Gradasi Biru -> Ungu -> Pink -> Oranye Sunset di dalam "VI" -->
+    <path android:pathData="M56,344 H113 L146,468 L179,344 H229 L159,551 H133 Z M246,344 H300 V551 H246 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="180"
+                android:startY="344"
+                android:endX="180"
+                android:endY="551"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#2962FF" />
+                <item android:offset="0.32" android:color="#8E24AA" />
+                <item android:offset="0.65" android:color="#FF2A85" />
+                <item android:offset="1.0" android:color="#FF9800" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Motif Siluet Daun Kelapa di Dalam Angka "VI" -->
+    <path
+        android:fillColor="#441A0033"
+        android:pathData="M65,375 Q105,360 125,390 Q95,382 65,375 Z
+                          M72,395 Q115,388 135,418 Q102,406 72,395 Z
+                          M80,418 Q120,415 138,445 Q105,432 80,418 Z
+                          M295,375 Q260,362 246,390 Q272,380 295,375 Z
+                          M298,400 Q262,392 246,420 Q274,408 298,400 Z
+                          M298,428 Q265,422 248,448 Q276,436 298,428 Z" />
+
+    <!-- ========================================================= -->
+    <!-- 6. TEKS BERTUMPUK "SONYBAE / COMPRESS" ALA GTA 6          -->
+    <!-- ========================================================= -->
+
+    <!-- Lapis 1: Outline Ungu Gelap Tebal (Efek Stiker GTA) -->
+    <path
+        android:fillColor="#210035"
+        android:strokeColor="#210035"
+        android:strokeWidth="10"
+        android:strokeLineJoin="round"
+        android:fillType="evenOdd"
+        android:pathData="M110,405 H88 V428 H102 V437 H88 V445 H110 V421 H96 V413 H110 Z
+                          M115,405 H137 V445 H115 Z M123,413 V437 H129 V413 Z
+                          M142,445 V405 H150 L156,423 V405 H164 V445 H156 L150,427 V445 Z
+                          M169,405 H177 L180,418 L183,405 H191 L184,427 V445 H176 V427 Z
+                          M196,405 H215 L218,410 V422 L214,425 L218,428 V440 L215,445 H196 Z M204,412 V421 H210 V412 Z M204,429 V438 H210 V429 Z
+                          M223,445 L228,405 H240 L245,445 H237 L236,435 H232 L231,445 Z M232,413 V427 H236 V413 Z
+                          M250,405 H272 V413 H258 V421 H269 V429 H258 V437 H272 V445 H250 Z
+                          M97,455 H75 V495 H97 V487 H83 V463 H97 Z
+                          M102,455 H124 V495 H102 Z M110,463 V487 H116 V463 Z
+                          M129,495 V455 H137 L140,469 L143,455 H151 V495 H144 V473 L140,486 L136,473 V495 Z
+                          M156,455 H178 V478 H164 V495 H156 Z M164,463 V470 H170 V463 Z
+                          M183,455 H205 V475 L200,478 L205,495 H197 L193,480 H191 V495 H183 Z M191,463 V472 H197 V463 Z
+                          M210,455 H232 V463 H218 V471 H229 V479 H218 V487 H232 V495 H210 Z
+                          M259,455 H237 V478 H251 V487 H237 V495 H259 V471 H245 V463 H259 Z
+                          M286,455 H264 V478 H278 V487 H264 V495 H286 V471 H272 V463 H286 Z" />
+
+    <!-- Lapis 2: Cahaya Tepi Neon Pink-Oranye -->
+    <path
+        android:fillColor="#FF2E93"
+        android:strokeColor="#FF2E93"
+        android:strokeWidth="3.5"
+        android:strokeLineJoin="round"
+        android:fillType="evenOdd"
+        android:pathData="M110,405 H88 V428 H102 V437 H88 V445 H110 V421 H96 V413 H110 Z
+                          M115,405 H137 V445 H115 Z M123,413 V437 H129 V413 Z
+                          M142,445 V405 H150 L156,423 V405 H164 V445 H156 L150,427 V445 Z
+                          M169,405 H177 L180,418 L183,405 H191 L184,427 V445 H176 V427 Z
+                          M196,405 H215 L218,410 V422 L214,425 L218,428 V440 L215,445 H196 Z M204,412 V421 H210 V412 Z M204,429 V438 H210 V429 Z
+                          M223,445 L228,405 H240 L245,445 H237 L236,435 H232 L231,445 Z M232,413 V427 H236 V413 Z
+                          M250,405 H272 V413 H258 V421 H269 V429 H258 V437 H272 V445 H250 Z
+                          M97,455 H75 V495 H97 V487 H83 V463 H97 Z
+                          M102,455 H124 V495 H102 Z M110,463 V487 H116 V463 Z
+                          M129,495 V455 H137 L140,469 L143,455 H151 V495 H144 V473 L140,486 L136,473 V495 Z
+                          M156,455 H178 V478 H164 V495 H156 Z M164,463 V470 H170 V463 Z
+                          M183,455 H205 V475 L200,478 L205,495 H197 L193,480 H191 V495 H183 Z M191,463 V472 H197 V463 Z
+                          M210,455 H232 V463 H218 V471 H229 V479 H218 V487 H232 V495 H210 Z
+                          M259,455 H237 V478 H251 V487 H237 V495 H259 V471 H245 V463 H259 Z
+                          M286,455 H264 V478 H278 V487 H264 V495 H286 V471 H272 V463 H286 Z" />
+
+    <!-- Lapis 3: Huruf Putih Solid Tebal (Persis Teks "grand theft auto") -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M110,405 H88 V428 H102 V437 H88 V445 H110 V421 H96 V413 H110 Z
+                          M115,405 H137 V445 H115 Z M123,413 V437 H129 V413 Z
+                          M142,445 V405 H150 L156,423 V405 H164 V445 H156 L150,427 V445 Z
+                          M169,405 H177 L180,418 L183,405 H191 L184,427 V445 H176 V427 Z
+                          M196,405 H215 L218,410 V422 L214,425 L218,428 V440 L215,445 H196 Z M204,412 V421 H210 V412 Z M204,429 V438 H210 V429 Z
+                          M223,445 L228,405 H240 L245,445 H237 L236,435 H232 L231,445 Z M232,413 V427 H236 V413 Z
+                          M250,405 H272 V413 H258 V421 H269 V429 H258 V437 H272 V445 H250 Z
+                          M97,455 H75 V495 H97 V487 H83 V463 H97 Z
+                          M102,455 H124 V495 H102 Z M110,463 V487 H116 V463 Z
+                          M129,495 V455 H137 L140,469 L143,455 H151 V495 H144 V473 L140,486 L136,473 V495 Z
+                          M156,455 H178 V478 H164 V495 H156 Z M164,463 V470 H170 V463 Z
+                          M183,455 H205 V475 L200,478 L205,495 H197 L193,480 H191 V495 H183 Z M191,463 V472 H197 V463 Z
+                          M210,455 H232 V463 H218 V471 H229 V479 H218 V487 H232 V495 H210 Z
+                          M259,455 H237 V478 H251 V487 H237 V495 H259 V471 H245 V463 H259 Z
+                          M286,455 H264 V478 H278 V487 H264 V495 H286 V471 H272 V463 H286 Z" />
+
+</vector>
