@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity() {
         if (binding.autoCompletePreset.text.toString() != state.selectedPreset.displayName) {
             binding.autoCompletePreset.setText(state.selectedPreset.displayName, false)
         }
-        binding.tvPresetArgs.text = state.selectedPreset.ffmpegArgs
+        binding.tvPresetArgs.text = state.selectedPreset.ffmpegArgs.joinToString(" ")
 
         binding.btnPickOutputFolder.text = if (state.outputDirDisplayName != null) {
             getString(R.string.output_folder_selected_format, state.outputDirDisplayName)

@@ -288,7 +288,7 @@ class VideoCompressor(private val context: Context) {
             val codecInfos = codecList.codecInfos
             for (info in codecInfos) {
                 if (info.isEncoder) {
-                    val caps = info.capabilitiesForType("video/hevc")
+                    val caps = info.getCapabilitiesForType("video/hevc")
                     if (caps != null) {
                         // Check if hardware encoder is available
                         return true
