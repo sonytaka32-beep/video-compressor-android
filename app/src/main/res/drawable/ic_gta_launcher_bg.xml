@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Langit Vice City Sunset -->
+    <path android:pathData="M0,0 H108 V108 H0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="54"
+                android:startY="0"
+                android:endX="54"
+                android:endY="108"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#0B031A" />
+                <item android:offset="0.45" android:color="#3B0954" />
+                <item android:offset="0.78" android:color="#B81D65" />
+                <item android:offset="1.0" android:color="#FF6D00" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Siluet Pohon Kelapa Kiri & Kanan -->
+    <path
+        android:fillColor="#1A042E"
+        android:pathData="M0,108 Q12,82 22,64 L25,65 Q16,84 6,108 Z
+                          M23,65 Q8,58 0,68 Q12,64 23,65 Z
+                          M23,65 Q10,48 0,52 Q14,55 23,65 Z
+                          M23,65 Q36,52 44,60 Q32,59 23,65 Z
+                          M108,108 Q96,82 86,64 L83,65 Q92,84 102,108 Z
+                          M85,65 Q100,58 108,68 Q96,64 85,65 Z
+                          M85,65 Q98,48 108,52 Q94,55 85,65 Z
+                          M85,65 Q72,52 64,60 Q76,59 85,65 Z" />
+
+    <!-- Garis Neon Bawah -->
+    <path
+        android:strokeColor="#00F5FF"
+        android:strokeWidth="1.2"
+        android:pathData="M0,88 H108" />
+</vector>

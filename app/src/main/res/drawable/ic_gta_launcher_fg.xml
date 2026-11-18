@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Outline Ungu Gelap & Putih Angka Romawi "VI" -->
+    <path
+        android:fillColor="#210035"
+        android:strokeColor="#210035"
+        android:strokeWidth="4.5"
+        android:strokeLineJoin="miter"
+        android:pathData="M24,26 H41 L49,58 L57,26 H72 L53,82 H45 Z
+                          M74,26 H88 V82 H74 Z" />
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineJoin="miter"
+        android:pathData="M24,26 H41 L49,58 L57,26 H72 L53,82 H45 Z
+                          M74,26 H88 V82 H74 Z" />
+
+    <!-- Isi Gradasi GTA VI di Dalam "VI" -->
+    <path android:pathData="M25.5,27.5 H39.8 L49,62 L58.2,27.5 H70.2 L52,80.5 H46 Z M75.5,27.5 H86.5 V80.5 H75.5 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="54"
+                android:startY="27.5"
+                android:endX="54"
+                android:endY="80.5"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#2962FF" />
+                <item android:offset="0.35" android:color="#8E24AA" />
+                <item android:offset="0.68" android:color="#FF2A85" />
+                <item android:offset="1.0" android:color="#FF9800" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Outline Gelap Teks Bertumpuk "SONYBAE / COMPRESS" -->
+    <path
+        android:fillColor="#210035"
+        android:strokeColor="#210035"
+        android:strokeWidth="3.2"
+        android:strokeLineJoin="round"
+        android:fillType="evenOdd"
+        android:pathData="M34,43 H27.5 V49.5 H31.8 V51.8 H27.5 V54 H34 V47.5 H29.7 V45.2 H34 Z
+                          M35.2,43 H41.7 V54 H35.2 Z M37.4,45.2 V51.8 H39.5 V45.2 Z
+                          M42.9,54 V43 H45.1 L47.2,48 V43 H49.4 V54 H47.2 L45.1,49 V54 Z
+                          M50.6,43 H52.9 L53.85,46.8 L54.8,43 H57.1 L54.95,49.2 V54 H52.75 V49.2 Z
+                          M58.3,43 H63.8 L64.8,44.2 V47.6 L63.6,48.5 L64.8,49.4 V52.8 L63.8,54 H58.3 Z M60.5,45 V47.5 H62.6 V45 Z M60.5,49.5 V52 H62.6 V49.5 Z
+                          M66,54 L67.6,43 H70.9 L72.5,54 H70.3 L70,51.4 H68.5 L68.2,54 Z M68.7,45.2 L68.5,49.4 H70 L69.8,45.2 Z
+                          M73.7,43 H80.2 V45.2 H75.9 V47.4 H79.4 V49.6 H75.9 V51.8 H80.2 V54 H73.7 Z
+                          M32.5,56.5 H26.5 V67.5 H32.5 V65.3 H28.7 V58.7 H32.5 Z
+                          M33.5,56.5 H39.5 V67.5 H33.5 Z M35.7,58.7 V65.3 H37.3 V58.7 Z
+                          M40.5,67.5 V56.5 H42.6 L44,60.5 L45.4,56.5 H47.5 V67.5 H45.5 V61.5 L44,65 L42.5,61.5 V67.5 Z
+                          M48.5,56.5 H54.5 V63 H50.7 V67.5 H48.5 Z M50.7,58.7 V60.8 H52.3 V58.7 Z
+                          M55.5,56.5 H61.5 V62.2 L60.1,63 L61.5,67.5 H59.3 L58.1,63.3 H57.7 V67.5 H55.5 Z M57.7,58.7 V61.1 H59.3 V58.7 Z
+                          M62.5,56.5 H68.5 V58.7 H64.7 V60.9 H67.8 V63.1 H64.7 V65.3 H68.5 V67.5 H62.5 Z
+                          M75.5,56.5 H69.5 V63 H73.3 V65.3 H69.5 V67.5 H75.5 V61 H71.7 V58.7 H75.5 Z
+                          M82.5,56.5 H76.5 V63 H80.3 V65.3 H76.5 V67.5 H82.5 V61 H78.7 V58.7 H82.5 Z" />
+
+    <!-- Garis Tepi Neon Pink -->
+    <path
+        android:fillColor="#FF2E93"
+        android:strokeColor="#FF2E93"
+        android:strokeWidth="1.2"
+        android:strokeLineJoin="round"
+        android:fillType="evenOdd"
+        android:pathData="M34,43 H27.5 V49.5 H31.8 V51.8 H27.5 V54 H34 V47.5 H29.7 V45.2 H34 Z
+                          M35.2,43 H41.7 V54 H35.2 Z M37.4,45.2 V51.8 H39.5 V45.2 Z
+                          M42.9,54 V43 H45.1 L47.2,48 V43 H49.4 V54 H47.2 L45.1,49 V54 Z
+                          M50.6,43 H52.9 L53.85,46.8 L54.8,43 H57.1 L54.95,49.2 V54 H52.75 V49.2 Z
+                          M58.3,43 H63.8 L64.8,44.2 V47.6 L63.6,48.5 L64.8,49.4 V52.8 L63.8,54 H58.3 Z M60.5,45 V47.5 H62.6 V45 Z M60.5,49.5 V52 H62.6 V49.5 Z
+                          M66,54 L67.6,43 H70.9 L72.5,54 H70.3 L70,51.4 H68.5 L68.2,54 Z M68.7,45.2 L68.5,49.4 H70 L69.8,45.2 Z
+                          M73.7,43 H80.2 V45.2 H75.9 V47.4 H79.4 V49.6 H75.9 V51.8 H80.2 V54 H73.7 Z
+                          M32.5,56.5 H26.5 V67.5 H32.5 V65.3 H28.7 V58.7 H32.5 Z
+                          M33.5,56.5 H39.5 V67.5 H33.5 Z M35.7,58.7 V65.3 H37.3 V58.7 Z
+                          M40.5,67.5 V56.5 H42.6 L44,60.5 L45.4,56.5 H47.5 V67.5 H45.5 V61.5 L44,65 L42.5,61.5 V67.5 Z
+                          M48.5,56.5 H54.5 V63 H50.7 V67.5 H48.5 Z M50.7,58.7 V60.8 H52.3 V58.7 Z
+                          M55.5,56.5 H61.5 V62.2 L60.1,63 L61.5,67.5 H59.3 L58.1,63.3 H57.7 V67.5 H55.5 Z M57.7,58.7 V61.1 H59.3 V58.7 Z
+                          M62.5,56.5 H68.5 V58.7 H64.7 V60.9 H67.8 V63.1 H64.7 V65.3 H68.5 V67.5 H62.5 Z
+                          M75.5,56.5 H69.5 V63 H73.3 V65.3 H69.5 V67.5 H75.5 V61 H71.7 V58.7 H75.5 Z
+                          M82.5,56.5 H76.5 V63 H80.3 V65.3 H76.5 V67.5 H82.5 V61 H78.7 V58.7 H82.5 Z" />
+
+    <!-- Huruf Putih Solid "SONYBAE / COMPRESS" -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M34,43 H27.5 V49.5 H31.8 V51.8 H27.5 V54 H34 V47.5 H29.7 V45.2 H34 Z
+                          M35.2,43 H41.7 V54 H35.2 Z M37.4,45.2 V51.8 H39.5 V45.2 Z
+                          M42.9,54 V43 H45.1 L47.2,48 V43 H49.4 V54 H47.2 L45.1,49 V54 Z
+                          M50.6,43 H52.9 L53.85,46.8 L54.8,43 H57.1 L54.95,49.2 V54 H52.75 V49.2 Z
+                          M58.3,43 H63.8 L64.8,44.2 V47.6 L63.6,48.5 L64.8,49.4 V52.8 L63.8,54 H58.3 Z M60.5,45 V47.5 H62.6 V45 Z M60.5,49.5 V52 H62.6 V49.5 Z
+                          M66,54 L67.6,43 H70.9 L72.5,54 H70.3 L70,51.4 H68.5 L68.2,54 Z M68.7,45.2 L68.5,49.4 H70 L69.8,45.2 Z
+                          M73.7,43 H80.2 V45.2 H75.9 V47.4 H79.4 V49.6 H75.9 V51.8 H80.2 V54 H73.7 Z
+                          M32.5,56.5 H26.5 V67.5 H32.5 V65.3 H28.7 V58.7 H32.5 Z
+                          M33.5,56.5 H39.5 V67.5 H33.5 Z M35.7,58.7 V65.3 H37.3 V58.7 Z
+                          M40.5,67.5 V56.5 H42.6 L44,60.5 L45.4,56.5 H47.5 V67.5 H45.5 V61.5 L44,65 L42.5,61.5 V67.5 Z
+                          M48.5,56.5 H54.5 V63 H50.7 V67.5 H48.5 Z M50.7,58.7 V60.8 H52.3 V58.7 Z
+                          M55.5,56.5 H61.5 V62.2 L60.1,63 L61.5,67.5 H59.3 L58.1,63.3 H57.7 V67.5 H55.5 Z M57.7,58.7 V61.1 H59.3 V58.7 Z
+                          M62.5,56.5 H68.5 V58.7 H64.7 V60.9 H67.8 V63.1 H64.7 V65.3 H68.5 V67.5 H62.5 Z
+                          M75.5,56.5 H69.5 V63 H73.3 V65.3 H69.5 V67.5 H75.5 V61 H71.7 V58.7 H75.5 Z
+                          M82.5,56.5 H76.5 V63 H80.3 V65.3 H76.5 V67.5 H82.5 V61 H78.7 V58.7 H82.5 Z" />
+</vector>
