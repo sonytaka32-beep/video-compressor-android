@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.VideoCompressor" parent="Theme.Material3.Dark.NoActionBar">
-        <!-- Latar Belakang & Status Bar -->
-        <item name="android:windowBackground">@color/vice_bg_dark</item>
-        <item name="android:statusBarColor">@color/vice_bg_dark</item>
-        <item name="android:navigationBarColor">@color/vice_bg_dark</item>
+        <item name="android:windowBackground">@color/gta_bg_night</item>
+        <item name="android:statusBarColor">@color/gta_bg_night</item>
+        <item name="android:navigationBarColor">@color/gta_bg_night</item>
 
-        <!-- Warna Utama Neon Pink & Cyan GTA 6 -->
-        <item name="colorPrimary">@color/vice_pink_primary</item>
-        <item name="colorOnPrimary">@color/vice_text_primary</item>
-        <item name="colorPrimaryContainer">@color/vice_pink_container</item>
-        <item name="colorOnPrimaryContainer">@color/vice_text_primary</item>
+        <!-- Primary: Hot Vice Magenta -->
+        <item name="colorPrimary">@color/gta_neon_pink</item>
+        <item name="colorOnPrimary">@color/gta_text_white</item>
+        <item name="colorPrimaryContainer">@color/gta_pink_dark</item>
+        <item name="colorOnPrimaryContainer">@color/gta_text_white</item>
 
-        <item name="colorSecondary">@color/vice_cyan_secondary</item>
-        <item name="colorOnSecondary">@color/vice_bg_dark</item>
-        <item name="colorSecondaryContainer">@color/vice_cyan_container</item>
-        <item name="colorOnSecondaryContainer">@color/vice_cyan_secondary</item>
+        <!-- Secondary: Electric Vice Cyan -->
+        <item name="colorSecondary">@color/gta_electric_cyan</item>
+        <item name="colorOnSecondary">@color/gta_bg_night</item>
+        <item name="colorSecondaryContainer">@color/gta_cyan_dark</item>
+        <item name="colorOnSecondaryContainer">@color/gta_electric_cyan</item>
 
-        <item name="colorTertiary">@color/vice_sunset_gold</item>
+        <!-- Tertiary: Sunset Gold -->
+        <item name="colorTertiary">@color/gta_sunset_orange</item>
 
-        <!-- Permukaan Kartu & Garis Tepi -->
-        <item name="colorSurface">@color/vice_surface</item>
-        <item name="colorOnSurface">@color/vice_text_primary</item>
-        <item name="colorSurfaceVariant">@color/vice_surface_card</item>
-        <item name="colorOnSurfaceVariant">@color/vice_text_secondary</item>
-        <item name="colorOutline">@color/vice_outline</item>
+        <!-- Surfaces & Cards -->
+        <item name="colorSurface">@color/gta_surface_dark</item>
+        <item name="colorOnSurface">@color/gta_text_white</item>
+        <item name="colorSurfaceVariant">@color/gta_card_surface</item>
+        <item name="colorOnSurfaceVariant">@color/gta_text_lavender</item>
+        <item name="colorOutline">@color/gta_border_neon</item>
+    </style>
+
+    <!-- Tipografi Judul Besar Ala GTA 6 -->
+    <style name="TextAppearance.Sonybae.GtaTitle" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:letterSpacing">0.06</item>
+        <item name="android:textColor">@color/gta_text_white</item>
+        <item name="android:shadowColor">@color/gta_neon_pink</item>
+        <item name="android:shadowDx">3</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowRadius">10</item>
     </style>
 </resources>

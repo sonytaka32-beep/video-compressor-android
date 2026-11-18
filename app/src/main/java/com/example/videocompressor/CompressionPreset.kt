@@ -5,13 +5,13 @@ enum class CompressionPreset(
     val ffmpegArgs: List<String>
 ) {
     PERCEPTUALLY_LOSSLESS_HEVC(
-        displayName = "Vice Lossless HEVC (Default)",
+        displayName = "Sonybae Lossless HEVC (Default)",
         ffmpegArgs = listOf(
             "-c:v", "libx265",
-            "-crf", "23",
+            "-crf", "24",
             "-preset", "ultrafast",
-            "-threads", "6",
-            "-x265-params", "frame-threads=4:wpp=1:no-sao=1:bframes=0:ref=1:rc-lookahead=0:early-skip=1:fast-intra=1",
+            "-threads", "8",
+            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
             "-movflags", "+faststart"
@@ -19,13 +19,13 @@ enum class CompressionPreset(
     ),
 
     MAXIMUM_QUALITY_HEVC(
-        displayName = "Leonida Ultra Quality HEVC",
+        displayName = "Maximum Quality HEVC (CRF 21)",
         ffmpegArgs = listOf(
             "-c:v", "libx265",
-            "-crf", "20",
-            "-preset", "superfast",
-            "-threads", "6",
-            "-x265-params", "frame-threads=4:wpp=1:no-sao=1:ref=1:rc-lookahead=5",
+            "-crf", "21",
+            "-preset", "ultrafast",
+            "-threads", "8",
+            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
             "-movflags", "+faststart"
@@ -33,13 +33,13 @@ enum class CompressionPreset(
     ),
 
     MAXIMUM_COMPRESSION_SMALLEST(
-        displayName = "Balanced Compression HEVC (Crisp)",
+        displayName = "Maximum Compression HEVC (Smallest Size)",
         ffmpegArgs = listOf(
             "-c:v", "libx265",
-            "-crf", "27",
+            "-crf", "28",
             "-preset", "ultrafast",
-            "-threads", "6",
-            "-x265-params", "frame-threads=4:wpp=1:no-sao=1:bframes=0:ref=1:me=dia:subme=1:rc-lookahead=0:early-skip=1:fast-intra=1",
+            "-threads", "8",
+            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
             "-movflags", "+faststart"
@@ -47,13 +47,13 @@ enum class CompressionPreset(
     ),
 
     MAXIMUM_COMPRESSION_60FPS(
-        displayName = "Vice 60fps Turbo HEVC (Crisp)",
+        displayName = "Maximum Compression 60fps HEVC",
         ffmpegArgs = listOf(
             "-c:v", "libx265",
-            "-crf", "27",
+            "-crf", "26",
             "-preset", "ultrafast",
-            "-threads", "6",
-            "-x265-params", "frame-threads=4:wpp=1:no-sao=1:bframes=0:ref=1:me=dia:subme=1:rc-lookahead=0:early-skip=1:fast-intra=1",
+            "-threads", "8",
+            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-r", "60",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
@@ -67,8 +67,8 @@ enum class CompressionPreset(
             "-c:v", "libx265",
             "-crf", "25",
             "-preset", "ultrafast",
-            "-threads", "6",
-            "-x265-params", "frame-threads=4:wpp=1:no-sao=1:bframes=0:ref=1:me=dia:subme=1:rc-lookahead=0:early-skip=1:fast-intra=1",
+            "-threads", "8",
+            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-vf", "scale=-2:720",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",

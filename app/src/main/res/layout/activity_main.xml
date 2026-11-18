@@ -11,8 +11,12 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/app_name" />
+            android:layout_height="wrap_content"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:title="@string/app_name"
+            app:titleTextAppearance="@style/TextAppearance.Sonybae.GtaTitle"
+            app:titleTextColor="@color/gta_text_white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
