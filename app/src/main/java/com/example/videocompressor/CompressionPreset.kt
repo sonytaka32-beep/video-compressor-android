@@ -8,10 +8,10 @@ enum class CompressionPreset(
         displayName = "Perceptually Lossless HEVC (Default)",
         ffmpegArgs = listOf(
             "-c:v", "libx265",
-            "-crf", "23",
+            "-crf", "24",
             "-preset", "ultrafast",
-            "-threads", "0",
-            "-x265-params", "pools=+:frame-threads=4:wpp=1:no-sao=1:bframes=0:ref=1:rc-lookahead=0",
+            "-threads", "6",
+            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
             "-movflags", "+faststart"
@@ -22,44 +22,47 @@ enum class CompressionPreset(
         displayName = "Maximum Quality HEVC",
         ffmpegArgs = listOf(
             "-c:v", "libx265",
-            "-crf", "20",
+            "-crf", "21",
             "-preset", "superfast",
-            "-threads", "0",
-            "-x265-params", "pools=+:frame-threads=4:wpp=1:no-sao=1:ref=1:rc-lookahead=5",
+            "-threads", "6",
+            "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
             "-movflags", "+faststart"
         )
     ),
 
+    // Gunakan preset ini untuk video panjang/AV1 seperti MADU.mp4 (2.5 jam)
     MAXIMUM_COMPRESSION_SMALLEST(
         displayName = "Maximum Compression (Smallest Size)",
         ffmpegArgs = listOf(
-            "-c:v", "libx265",
-            "-crf", "30",
-            "-preset", "ultrafast",
-            "-threads", "0",
-            "-x265-params", "pools=+:frame-threads=4:wpp=1:no-sao=1:no-deblock=1:bframes=0:ref=1:me=dia:subme=0:rc-lookahead=0:early-skip=1:fast-intra=1",
-            "-r", "30",
+            "-c:v", "libx264",
+            "-crf", "34",
+            "-preset", "superfast",
+            "-maxrate", "900k",
+            "-bufsize", "1800k",
+            "-threads", "6",
             "-pix_fmt", "yuv420p",
             "-c:a", "aac",
-            "-b:a", "96k",
+            "-b:a", "64k",
             "-movflags", "+faststart"
         )
     ),
 
+    // Khusus video 60fps: Cepat (~1.5 - 2 menit), ukuran hemat 80%+, anti-minus di video horizontal
     MAXIMUM_COMPRESSION_60FPS(
         displayName = "Maximum Compression 60fps (Smallest Size)",
         ffmpegArgs = listOf(
             "-c:v", "libx264",
-            "-crf", "28",
-            "-preset", "ultrafast",
-            "-tune", "fastdecode",
+            "-crf", "33",
+            "-preset", "superfast",
+            "-maxrate", "1400k",
+            "-bufsize", "2800k",
             "-threads", "6",
             "-r", "60",
             "-pix_fmt", "yuv420p",
             "-c:a", "aac",
-            "-b:a", "96k",
+            "-b:a", "64k",
             "-movflags", "+faststart"
         )
     ),
@@ -67,11 +70,12 @@ enum class CompressionPreset(
     FAST_720P_HEVC(
         displayName = "Fast 720p HEVC (Sharing)",
         ffmpegArgs = listOf(
-            "-c:v", "libx265",
-            "-crf", "26",
-            "-preset", "ultrafast",
-            "-threads", "0",
-            "-x265-params", "pools=+:frame-threads=4:wpp=1:no-sao=1:no-deblock=1:bframes=0:ref=1:me=dia:subme=0:rc-lookahead=0",
+            "-c:v", "libx264",
+            "-crf", "30",
+            "-preset", "superfast",
+            "-maxrate", "1200k",
+            "-bufsize", "2400k",
+            "-threads", "6",
             "-vf", "scale=-2:720",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
