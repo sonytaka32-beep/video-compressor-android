@@ -10,7 +10,7 @@ enum class CompressionPreset(
             "-c:v", "libx265",
             "-crf", "24",
             "-preset", "ultrafast",
-            "-threads", "0",
+            "-threads", "6",
             "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
@@ -24,7 +24,7 @@ enum class CompressionPreset(
             "-c:v", "libx265",
             "-crf", "21",
             "-preset", "superfast",
-            "-threads", "0",
+            "-threads", "6",
             "-x265-params", "frame-threads=4:wpp=1:no-sao=1",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
@@ -36,15 +36,14 @@ enum class CompressionPreset(
         displayName = "Maximum Compression (Smallest Size)",
         ffmpegArgs = listOf(
             "-c:v", "libx264",
-            "-crf", "35",
-            "-preset", "ultrafast",
-            "-x264-params", "sliced-threads=0:cabac=0:ref=1:subme=0:me=dia:bframes=0:trellis=0:rc-lookahead=0:sync-lookahead=4:no-deblock=1:weightp=0:8x8dct=0:aq-mode=0",
-            "-maxrate", "700k",
-            "-bufsize", "1400k",
-            "-r", "20",
-            "-threads", "8",
+            "-crf", "34",
+            "-preset", "superfast",
+            "-maxrate", "900k",
+            "-bufsize", "1800k",
+            "-threads", "6",
             "-pix_fmt", "yuv420p",
-            "-c:a", "copy",
+            "-c:a", "aac",
+            "-b:a", "64k",
             "-movflags", "+faststart"
         )
     ),
@@ -54,14 +53,14 @@ enum class CompressionPreset(
         ffmpegArgs = listOf(
             "-c:v", "libx264",
             "-crf", "33",
-            "-preset", "ultrafast",
-            "-x264-params", "sliced-threads=0:cabac=0:ref=1:subme=0:me=dia:bframes=0:trellis=0:rc-lookahead=0:sync-lookahead=4:no-deblock=1:weightp=0:8x8dct=0:aq-mode=0",
+            "-preset", "superfast",
             "-maxrate", "1400k",
             "-bufsize", "2800k",
+            "-threads", "6",
             "-r", "60",
-            "-threads", "8",
             "-pix_fmt", "yuv420p",
-            "-c:a", "copy",
+            "-c:a", "aac",
+            "-b:a", "64k",
             "-movflags", "+faststart"
         )
     ),
@@ -71,12 +70,11 @@ enum class CompressionPreset(
         ffmpegArgs = listOf(
             "-c:v", "libx264",
             "-crf", "30",
-            "-preset", "ultrafast",
-            "-x264-params", "sliced-threads=0:cabac=0:ref=1:subme=0:me=dia:bframes=0:trellis=0:rc-lookahead=0:sync-lookahead=4:weightp=0:8x8dct=0:aq-mode=0",
+            "-preset", "superfast",
             "-maxrate", "1200k",
             "-bufsize", "2400k",
-            "-threads", "8",
-            "-vf", "scale=-2:720:flags=fast_bilinear",
+            "-threads", "6",
+            "-vf", "scale=-2:720",
             "-pix_fmt", "yuv420p",
             "-c:a", "copy",
             "-movflags", "+faststart"
@@ -84,10 +82,4 @@ enum class CompressionPreset(
     );
 
     override fun toString(): String = displayName
-
-    companion object {
-        fun fromNameOrDefault(name: String?): CompressionPreset {
-            return entries.firstOrNull { it.name == name } ?: PERCEPTUALLY_LOSSLESS_HEVC
-        }
-    }
 }

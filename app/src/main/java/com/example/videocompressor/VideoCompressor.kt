@@ -77,6 +77,7 @@ class VideoCompressor(private val context: Context) {
             // Build FFmpeg command with hardware acceleration if available
             val ffmpegArgs = buildFfmpegArgs(preset, hardwareEncoderAvailable)
             // WAJIB SEBELUM "-i": Buffer antrean + multi-thread decoder agar AV1 dan H.264 berjalan serentak
+            // Input decoder acceleration: -threads 8 untuk percepatan pembacaan file AV1/H.264
             val command = "-y -thread_queue_size 1024 -threads 8 -flags2 +fast -skip_loop_filter all -i \"${tempInput.absolutePath}\" $ffmpegArgs \"${tempOutput.absolutePath}\""
 
             val session: FFmpegSession = FFmpegKit.execute(command)
@@ -150,8 +151,9 @@ class VideoCompressor(private val context: Context) {
     }
 
     private fun shouldUseHardwareEncoder(preset: CompressionPreset): Boolean {
-        return preset == CompressionPreset.MAXIMUM_COMPRESSION_SMALLEST ||
-               preset == CompressionPreset.FAST_720P_HEVC
+        // Hardware encoder (hevc_mediacodec) is for HEVC presets, not libx264 presets
+        return preset == CompressionPreset.PERCEPTUALLY_LOSSLESS_HEVC ||
+               preset == CompressionPreset.MAXIMUM_QUALITY_HEVC
     }
 
     private fun hardwareEncoderUsed(preset: CompressionPreset): Boolean {
@@ -162,7 +164,7 @@ class VideoCompressor(private val context: Context) {
         // Hardware encoder uses bitrate-based encoding, not CRF
         // Base config for hevc_mediacodec
         return when (preset) {
-            CompressionPreset.MAXIMUM_COMPRESSION_SMALLEST -> {
+            CompressionPreset.PERCEPTUALLY_LOSSLESS_HEVC -> {
                 listOf(
                     "-hwaccel", "auto",
                     "-c:v", "hevc_mediacodec",
@@ -171,33 +173,18 @@ class VideoCompressor(private val context: Context) {
                     "-bufsize", "3600k",
                     "-r", "30",
                     "-pix_fmt", "yuv420p",
-                    "-c:a", "aac",
-                    "-b:a", "96k",
+                    "-c:a", "copy",
                     "-movflags", "+faststart"
                 ).joinToString(" ")
             }
-            CompressionPreset.MAXIMUM_COMPRESSION_60FPS -> {
+            CompressionPreset.MAXIMUM_QUALITY_HEVC -> {
                 listOf(
                     "-hwaccel", "auto",
                     "-c:v", "hevc_mediacodec",
-                    "-b:v", "1800k",
-                    "-maxrate", "2200k",
-                    "-bufsize", "3600k",
-                    "-r", "60",
-                    "-pix_fmt", "yuv420p",
-                    "-c:a", "aac",
-                    "-b:a", "96k",
-                    "-movflags", "+faststart"
-                ).joinToString(" ")
-            }
-            CompressionPreset.FAST_720P_HEVC -> {
-                listOf(
-                    "-hwaccel", "auto",
-                    "-c:v", "hevc_mediacodec",
-                    "-b:v", "1500k",
-                    "-maxrate", "1800k",
-                    "-bufsize", "3000k",
-                    "-vf", "scale=-2:720",
+                    "-b:v", "2500k",
+                    "-maxrate", "3000k",
+                    "-bufsize", "5000k",
+                    "-r", "30",
                     "-pix_fmt", "yuv420p",
                     "-c:a", "copy",
                     "-movflags", "+faststart"
@@ -335,11 +322,11 @@ class VideoCompressor(private val context: Context) {
         val treeDir = DocumentFile.fromTreeUri(context, outputTreeUri) ?: return null
         val baseName = originalName.substringBeforeLast(".")
         val suffix = when (preset) {
-            CompressionPreset.PERCEPTUALLY_LOSSLESS_HEVC -> "hevc_crf23_superfast"
-            CompressionPreset.MAXIMUM_QUALITY_HEVC -> "hevc_crf20_veryfast"
-            CompressionPreset.MAXIMUM_COMPRESSION_SMALLEST -> "hevc_crf30_ultrafast_30fps"
-            CompressionPreset.MAXIMUM_COMPRESSION_60FPS -> "hevc_crf30_ultrafast_60fps"
-            CompressionPreset.FAST_720P_HEVC -> "hevc_crf26_ultrafast_720p"
+            CompressionPreset.PERCEPTUALLY_LOSSLESS_HEVC -> "hevc_crf24_ultrafast"
+            CompressionPreset.MAXIMUM_QUALITY_HEVC -> "hevc_crf21_superfast"
+            CompressionPreset.MAXIMUM_COMPRESSION_SMALLEST -> "libx264_crf34_superfast_900k_aac64k"
+            CompressionPreset.MAXIMUM_COMPRESSION_60FPS -> "libx264_crf33_superfast_1400k_60fps_aac64k"
+            CompressionPreset.FAST_720P_HEVC -> "libx264_crf30_superfast_720p_1200k"
         }
         val targetFileName = "${baseName}_${suffix}.mp4"
 
