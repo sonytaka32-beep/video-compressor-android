@@ -50,7 +50,7 @@ enum class CompressionPreset(
         displayName = "Maximum Compression 60fps (Smallest Size)",
         ffmpegArgs = listOf(
             "-c:v", "libx264",
-            "-crf", "29",
+            "-crf", "24",
             "-preset", "superfast",
             "-maxrate", "2800k",
             "-bufsize", "5600k",
@@ -67,7 +67,7 @@ enum class CompressionPreset(
         displayName = "Fast 720p H.264 (Sharing)",
         ffmpegArgs = listOf(
             "-c:v", "libx264",
-            "-crf", "28",
+            "-crf", "26",
             "-preset", "superfast",
             "-maxrate", "1800k",
             "-bufsize", "3600k",
