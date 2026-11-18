@@ -76,8 +76,8 @@ class VideoCompressor(private val context: Context) {
 
             // Build FFmpeg command with hardware acceleration if available
             val ffmpegArgs = buildFfmpegArgs(preset, hardwareEncoderAvailable)
-            // Add -threads 0 before -i so AV1 decoder uses all CPU cores (faster decode for AV1 input like MADU.mp4)
-            val command = "-y -threads 0 -i \"${tempInput.absolutePath}\" $ffmpegArgs \"${tempOutput.absolutePath}\""
+            // WAJIB SEBELUM "-i": Memaksa decoder AV1/H264 memakai 8 core & melewati filter berat (CDEF/deblock)
+            val command = "-y -threads 8 -flags2 +fast -skip_loop_filter all -skip_idct all -i \"${tempInput.absolutePath}\" $ffmpegArgs \"${tempOutput.absolutePath}\""
 
             val session: FFmpegSession = FFmpegKit.execute(command)
             FFmpegKitConfig.enableStatisticsCallback(null)
