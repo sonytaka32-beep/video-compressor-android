@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FFmpeg Video Compressor</string>
+    <string name="app_name">ViceCompress</string>
     <string name="add_videos">Add Videos</string>
     <string name="select_output_folder">Output Folder</string>
     <string name="output_folder_selected_format">Out: %1$s</string>

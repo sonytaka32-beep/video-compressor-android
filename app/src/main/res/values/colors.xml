@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GTA 6 Vice City Neon Sunset Palette -->
+    <color name="vice_bg_dark">#0D0618</color>
+    <color name="vice_surface">#180D2B</color>
+    <color name="vice_surface_card">#22123D</color>
+    <color name="vice_pink_primary">#FF2E93</color>
+    <color name="vice_pink_container">#4D0E30</color>
+    <color name="vice_cyan_secondary">#00F0FF</color>
+    <color name="vice_cyan_container">#003B42</color>
+    <color name="vice_sunset_gold">#FF9E00</color>
+    <color name="vice_text_primary">#FFF5FC</color>
+    <color name="vice_text_secondary">#C5B3E6</color>
+    <color name="vice_outline">#5E3A8C</color>
+</resources>

@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.VideoCompressor" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:statusBarColor">?attr/colorSurface</item>
+    <style name="Theme.VideoCompressor" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Latar Belakang & Status Bar -->
+        <item name="android:windowBackground">@color/vice_bg_dark</item>
+        <item name="android:statusBarColor">@color/vice_bg_dark</item>
+        <item name="android:navigationBarColor">@color/vice_bg_dark</item>
+
+        <!-- Warna Utama Neon Pink & Cyan GTA 6 -->
+        <item name="colorPrimary">@color/vice_pink_primary</item>
+        <item name="colorOnPrimary">@color/vice_text_primary</item>
+        <item name="colorPrimaryContainer">@color/vice_pink_container</item>
+        <item name="colorOnPrimaryContainer">@color/vice_text_primary</item>
+
+        <item name="colorSecondary">@color/vice_cyan_secondary</item>
+        <item name="colorOnSecondary">@color/vice_bg_dark</item>
+        <item name="colorSecondaryContainer">@color/vice_cyan_container</item>
+        <item name="colorOnSecondaryContainer">@color/vice_cyan_secondary</item>
+
+        <item name="colorTertiary">@color/vice_sunset_gold</item>
+
+        <!-- Permukaan Kartu & Garis Tepi -->
+        <item name="colorSurface">@color/vice_surface</item>
+        <item name="colorOnSurface">@color/vice_text_primary</item>
+        <item name="colorSurfaceVariant">@color/vice_surface_card</item>
+        <item name="colorOnSurfaceVariant">@color/vice_text_secondary</item>
+        <item name="colorOutline">@color/vice_outline</item>
     </style>
 </resources>
