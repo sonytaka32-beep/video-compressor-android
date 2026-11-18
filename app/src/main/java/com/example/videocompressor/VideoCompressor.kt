@@ -322,11 +322,11 @@ class VideoCompressor(private val context: Context) {
         val treeDir = DocumentFile.fromTreeUri(context, outputTreeUri) ?: return null
         val baseName = originalName.substringBeforeLast(".")
         val suffix = when (preset) {
-            CompressionPreset.PERCEPTUALLY_LOSSLESS_HEVC -> "hevc_crf24_ultrafast"
-            CompressionPreset.MAXIMUM_QUALITY_HEVC -> "hevc_crf21_superfast"
-            CompressionPreset.MAXIMUM_COMPRESSION_SMALLEST -> "libx264_crf34_superfast_900k_aac64k"
-            CompressionPreset.MAXIMUM_COMPRESSION_60FPS -> "libx264_crf33_superfast_1400k_60fps_aac64k"
-            CompressionPreset.FAST_720P_HEVC -> "libx264_crf30_superfast_720p_1200k"
+            CompressionPreset.PERCEPTUALLY_LOSSLESS_HEVC -> "libx264_crf23_superfast"
+            CompressionPreset.MAXIMUM_QUALITY_HEVC -> "libx264_crf20_superfast"
+            CompressionPreset.MAXIMUM_COMPRESSION_SMALLEST -> "libx264_crf30_superfast_1500k_aac64k"
+            CompressionPreset.MAXIMUM_COMPRESSION_60FPS -> "libx264_crf24_superfast_2800k_60fps_aac64k"
+            CompressionPreset.FAST_720P_HEVC -> "libx264_crf26_superfast_1800k_720p"
         }
         val targetFileName = "${baseName}_${suffix}.mp4"
 
