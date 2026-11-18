@@ -150,7 +150,6 @@ class VideoCompressor(private val context: Context) {
 
     private fun shouldUseHardwareEncoder(preset: CompressionPreset): Boolean {
         return preset == CompressionPreset.MAXIMUM_COMPRESSION_SMALLEST ||
-               preset == CompressionPreset.MAXIMUM_COMPRESSION_60FPS ||
                preset == CompressionPreset.FAST_720P_HEVC
     }
 
